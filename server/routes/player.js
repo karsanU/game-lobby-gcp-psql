@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const router = new express.Router();
 
-DEFAULT_COLORS = ["#DFFF00", "#FFBF00", "#FF7F50", "#DE3163"];
+const DEFAULT_COLORS = ["#DFFF00", "#FFBF00", "#FF7F50", "#DE3163"];
 
 // update color
 router.put("/players", async (req, res) => {
