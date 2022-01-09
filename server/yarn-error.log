@@ -1,0 +1,54 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\karsa\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add prisma --dev
+
+PATH: 
+  C:\Python310\Scripts\;C:\Python310\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files\OpenJDK\openjdk-8u275-b01\bin;C:\Program Files\Calibre2\;C:\Program Files\PuTTY\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\Users\karsa\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\karsa\AppData\Local\Programs\Python\Python37-32\;C:\Users\karsa\AppData\Local\Microsoft\WindowsApps;C:\Users\karsa\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Users\karsa\AppData\Local\Android\Sdk\platform-tools;C:\Users\karsa\AppData\Local\GitHubDesktop\bin;C:\Users\karsa\AppData\Local\gitkraken\bin;C:\Users\karsa\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  16.13.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\karsa\Desktop\dev\dapp\backend-advanced\server\package.json: Unexpected token } in JSON at position 248
+      at JSON.parse (<anonymous>)
+      at C:\Users\karsa\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\karsa\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\karsa\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node app.js",
+      "dev": "env-cmd -f ./config/dev.env nodemon app.js",
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "bcrypt": "^5.0.0",
+      "express": "^4.17.1",
+      "jsonwebtoken": "^8.5.1",
+      "validator": "^13.1.17"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.6",
+      "env-cmd": "^10.1.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
