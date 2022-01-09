@@ -4,7 +4,7 @@ import { UserContext } from './contexts';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   const [user, setUser] = useState();
-
+  
   return (
     <>
       <UserContext.Provider value={{ user, setUser }}>

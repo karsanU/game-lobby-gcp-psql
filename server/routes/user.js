@@ -1,5 +1,6 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
+var validator = require("validator");
 const prisma = new PrismaClient();
 
 const router = new express.Router();
@@ -10,6 +11,7 @@ DEFAULT_COLORS = ["#DFFF00", "#FFBF00", "#FF7F50", "#DE3163"];
 router.post("/users/create", async (req, res) => {
   const { name, email, password } = req.body;
   try {
+    if (!validator.isEmail(email)) throw "email not valid";
     const user = await prisma.user.create({
       data: {
         email,
@@ -18,10 +20,10 @@ router.post("/users/create", async (req, res) => {
         players: {
           createMany: {
             data: [
+              { playerId: 0 },
               { playerId: 1 },
               { playerId: 2 },
               { playerId: 3 },
-              { playerId: 4 },
             ],
           },
         },
@@ -29,15 +31,15 @@ router.post("/users/create", async (req, res) => {
     });
     res.status(201).send({ user });
   } catch (e) {
-    console.log(e);
-    res.status(400).send(e);
+    res.status(400).send({ message: e.toString() });
   }
 });
 
 // update color
 router.get("/users/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.query;
   try {
+    if (!validator.isEmail(email)) throw "email not valid";
     const user = await prisma.user.findUnique({
       where: {
         email,
@@ -47,8 +49,7 @@ router.get("/users/login", async (req, res) => {
     if (user.password !== password) throw "wrong password";
     res.status(201).send({ user });
   } catch (e) {
-    console.log(e);
-    res.status(400).send(e);
+    res.status(400).send({ message: e.toString() });
   }
 });
 

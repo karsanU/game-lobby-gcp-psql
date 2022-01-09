@@ -22,15 +22,15 @@ function Panel({ player, colors, setColors, players, setPlayers }) {
       (async function () {
         try {
           const url = await getDownloadURL(
-            ref(storage, `profilePics/${user.uid}/${player.id}`)
+            ref(storage, `profilePics/${user.id}/${player.playerId}`)
           );
           setProfile(url);
         } catch (err) {
-          console.log(player.id + ' has no profile picture.');
+          console.log(player.playerId + ' has no profile picture.');
         }
       })();
     }
-  }, [player.id, user]);
+  }, [player.playerId, user]);
 
   // change color
   const pickColorHandler = (color, removePick) => {
@@ -40,19 +40,15 @@ function Panel({ player, colors, setColors, players, setPlayers }) {
         try {
           await axios({
             method: 'put',
-            url: 'https://us-central1-gamelobby-4f59a.cloudfunctions.net/app/color/',
+            url: 'http://localhost:3001/players',
             data: {
-              uid: user.uid,
-              playerId: player.id,
-              newColor: colorReq,
-            },
-            headers: {
-              Authorization: `Bearer ${user.stsTokenManager.accessToken}`,
+              userId: user.id,
+              playerId: player.playerId,
+              color: colorReq,
             },
           });
-          players[player.id] = { ...player, color: colorReq };
+          players[player.playerId] = { ...player, color: colorReq };
           setPlayers({ ...players });
-
           if (removePick) {
             colors.push(color);
             setColors([...colors]);
@@ -71,7 +67,7 @@ function Panel({ player, colors, setColors, players, setPlayers }) {
     return (
       <>
         <Box
-          key={player.id + color}
+          key={player.playerId + color}
           onClick={() => pickColorHandler(color, removePick)}
           component='button'
           sx={{
@@ -91,8 +87,8 @@ function Panel({ player, colors, setColors, players, setPlayers }) {
             onClick={() => pickColorHandler(color, removePick)}
             sx={{
               position: 'relative',
-              right: 34,
-              top: 10,
+              right: 33,
+              top: 9,
               color: 'white',
               fontSize: 17,
               '&:hover': {
@@ -115,14 +111,14 @@ function Panel({ player, colors, setColors, players, setPlayers }) {
         (async function () {
           const profileRef = ref(
             storage,
-            `profilePics/${user.uid}/${player.id}`
+            `profilePics/${user.id}/${player.playerId}`
           );
           await uploadBytes(profileRef, file).then((snapshot) => {
             console.log('Upload success');
           });
           // download it
           url = await getDownloadURL(
-            ref(storage, `profilePics/${user.uid}/${player.id}`)
+            ref(storage, `profilePics/${user.id}/${player.playerId}`)
           );
           console.log(url);
           setProfile(url);
@@ -136,11 +132,11 @@ function Panel({ player, colors, setColors, players, setPlayers }) {
   return (
     <Card sx={{ maxWidth: 400, m: 'auto' }}>
       <CardContent sx={{ display: 'flex', p: '5px' }}>
-        <label htmlFor={`icon-button-file${player.id}`}>
+        <label htmlFor={`icon-button-file${player.playerId}`}>
           <input
             onChange={(e) => handleProfileUpload(e)}
             accept='image/*'
-            id={`icon-button-file${player.id}`}
+            id={`icon-button-file${player.playerId}`}
             type='file'
             style={{ display: 'none' }}
           />
@@ -169,7 +165,7 @@ function Panel({ player, colors, setColors, players, setPlayers }) {
           variant='h5'
           component='div'
           sx={{ margin: 'auto 0' }}>
-          {`Player ${player.id + 1}`}
+          {`Player ${player.playerId + 1}`}
         </Typography>
       </CardContent>
       <CardContent

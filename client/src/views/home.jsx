@@ -8,8 +8,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
 import axios from 'axios';
 import { UserContext } from '../contexts';
 import { useNavigate } from 'react-router-dom';
@@ -30,14 +28,12 @@ function App() {
       return;
     }
     (async () => {
+      console.log(user);
       const res = await axios({
         method: 'get',
-        url: 'https://us-central1-gamelobby-4f59a.cloudfunctions.net/app/color/',
-        headers: {
-          authorization: `Bearer ${user.stsTokenManager.accessToken}`,
-        },
+        url: 'http://localhost:3001/players',
         params: {
-          uid: user.uid,
+          userId: user.id,
         },
       });
       setPlayers(res.data.players);
@@ -47,24 +43,19 @@ function App() {
 
   function handleLogOut() {
     (async function () {
-      try {
-        await signOut(auth);
-      } catch (err) {
-        console.log(err);
-      }
       setUser(null);
     })();
   }
 
   function renderPlayers() {
     const result = [];
-    for (const id in players) {
+    for (const playerId in players) {
       result.push(
-        <Grid key={id} item xs={10} sm={5}>
+        <Grid key={playerId} item xs={10} sm={5}>
           <Panel
-            key={id}
+            key={playerId}
             sx={{ display: 'flex', justifyContent: 'center' }}
-            player={{ ...players[id] }}
+            player={{ ...players[playerId] }}
             colors={colors}
             setColors={setColors}
             setPlayers={setPlayers}

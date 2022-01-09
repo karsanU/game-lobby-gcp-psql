@@ -32,7 +32,7 @@ function SignUp({ setWantsToSignIn }) {
   function handleSingUp() {
     (async function () {
       try {
-        const user = await axios({
+        const res = await axios({
           method: 'post',
           url: 'http://localhost:3001/users/create',
           data: {
@@ -41,11 +41,12 @@ function SignUp({ setWantsToSignIn }) {
             password,
           },
         });
-        console.log(user)
-        setUser(name);
+        console.log(res.data.user);
+        setUser(res.data.user);
         userIsLoggedIn();
       } catch (err) {
-        setSingUpErr(err.toString());
+        console.log(err.response.data.message);
+        setSingUpErr(err.response.data.message || err.toString());
       }
     })();
   }

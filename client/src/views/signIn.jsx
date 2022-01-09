@@ -3,8 +3,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import axios from 'axios';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts';
 
@@ -31,15 +30,19 @@ function SignIn() {
   function handleSingIn() {
     (async function () {
       try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        setUser(userCredential.user);
+        const res = await axios({
+          method: 'get',
+          url: 'http://localhost:3001/users/login',
+          params: {
+            email,
+            password,
+          },
+        });
+        console.log(res.data.user);
+        setUser(res.data.user);
         userIsLoggedIn();
       } catch (err) {
-        setSingInErr(err.toString());
+        setSingInErr(err.response.data.message || err.toString());
       }
     })();
   }
